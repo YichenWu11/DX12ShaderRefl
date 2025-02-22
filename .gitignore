@@ -1,0 +1,14 @@
+*.swp
+.DS_Store
+.vscode/
+build-*/
+.vs/
+bin/
+lib/
+out/
+*.log
+*.dxil
+*.spv
+*.dxbc
+*.dxbc50
+*.dxbc51

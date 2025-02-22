@@ -1,0 +1,45 @@
+dxc Happy_Jumping.hlsl -T cs_6_0 -E csmain -Qstrip_reflect -Fre happy_jumping_reflection.ref 
+
+dxc sample_spv.hlsl -T ps_6_0 -E main -spirv -fvk-use-dx-layout -fvk-use-dx-position-w -fspv-reflect -fvk-auto-shift-bindings -HV 2016 -Fo sample_spv.spv 
+
+dxc ms.hlsl -T ps_6_0 -E main -spirv -fvk-use-dx-layout -fvk-use-dx-position-w -fspv-reflect -fvk-auto-shift-bindings -HV 2016 -Fo ms.spv
+
+dxc array.hlsl -T ps_5_1 -E PS -spirv -Ges -WX -Zpc -fvk-use-dx-layout -fvk-use-dx-position-w -fspv-reflect -fvk-auto-shift-bindings -fspv-flatten-resource-arrays -HV 2016 -Fo array.spv
+
+dxc array_attribute_texture.hlsl -T ps_5_1 -E PS -spirv -fvk-use-dx-layout -fvk-use-dx-position-w -fspv-reflect -fvk-auto-shift-bindings -fspv-flatten-resource-arrays -HV 2016 -Fo array_attribute_texture.spv
+
+dxc HalveDepthVS.hlsl -T vs_5_1 -E HalveDepthVS -spirv -fvk-use-dx-layout -fvk-use-dx-position-w -fspv-reflect -fvk-auto-shift-bindings -fspv-flatten-resource-arrays -HV 2016 -Fo HalveDepthVS.spv
+
+dxc simple.hlsl -T ps_5_1 -E PSMain -spirv -fvk-use-dx-layout -fvk-use-dx-position-w -fspv-reflect -fvk-auto-shift-bindings -fspv-flatten-resource-arrays -HV 2016 -Fo simple.spv
+
+// Debug
+027c:err:module:import_dll Library MSVCP140D.dll (which is needed by L"C:\\Test\\ShaderReflection.EXE") not found
+027c:err:module:import_dll Library VCRUNTIME140D.dll (which is needed by L"C:\\Test\\ShaderReflection.EXE") not found
+027c:err:module:import_dll Library VCRUNTIME140_1D.dll (which is needed by L"C:\\Test\\ShaderReflection.EXE") not found
+027c:err:module:import_dll Library ucrtbased.dll (which is needed by L"C:\\Test\\ShaderReflection.EXE") not found
+027c:err:module:LdrInitializeThunk Importing dlls for L"C:\\Test\\ShaderReflection.EXE" failed, status c0000135
+
+
+// Release
+
+0284:fixme:font:get_name_record_codepage encoding 29 not handled, platform 1.
+0284:fixme:font:get_name_record_codepage encoding 29 not handled, platform 1.
+0284:fixme:font:get_name_record_codepage encoding 29 not handled, platform 1.
+0284:fixme:font:get_name_record_codepage encoding 29 not handled, platform 1.
+0284:fixme:font:get_name_record_codepage encoding 20 not handled, platform 1.
+0284:fixme:font:get_name_record_codepage encoding 20 not handled, platform 1.
+0284:fixme:ntdll:EtwEventRegister ({5c65fe8c-9f96-4bfd-9a87-9f8ebd45da64}, 000000018001A9F0, 0000000181202000, 0000000181202000) stub.
+0284:fixme:ntdll:EtwEventRegister ({af2ca688-62aa-48e9-8bf6-a0ca0cae2354}, 0000000000A81270, 0000000000BDDC30, 0000000000BDDC30) stub.
+Getting reflection data from C:\Test\..\shaders\hjr.ref0284:fixme:msvcp:_Locinfo__Locinfo_ctor_cat_cstr (000000000021F950 1 C) semi-stub
+
+
+abnormal program termination
+0284:fixme:ntdll:EtwEventUnregister (deadbeef) stub.
+0284:fixme:ntdll:EtwEventUnregister (deadbeef) stub.
+
+
+TestTest
+This is just a test: 028c:fixme:msvcp:_Locinfo__Locinfo_ctor_cat_cstr (000000000021FC30 1 C) semi-stub
+028c:fixme:msvcp:_Locinfo__Locinfo_ctor_cat_cstr (000000000021F8D0 1 C) semi-stub
+000000000021FDD0028c:fixme:msvcp:_Locinfo__Locinfo_ctor_cat_cstr (000000000021FBF0 1 C) semi-stub
+

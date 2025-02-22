@@ -1,0 +1,10 @@
+E:/GitProject/Others/ShaderReflection-main/build/CMakeFiles/edit_cache.dir
+E:/GitProject/Others/ShaderReflection-main/build/CMakeFiles/rebuild_cache.dir
+E:/GitProject/Others/ShaderReflection-main/build/projects/CMakeFiles/edit_cache.dir
+E:/GitProject/Others/ShaderReflection-main/build/projects/CMakeFiles/rebuild_cache.dir
+E:/GitProject/Others/ShaderReflection-main/build/projects/dxc_test/CMakeFiles/dxc_test.dir
+E:/GitProject/Others/ShaderReflection-main/build/projects/dxc_test/CMakeFiles/edit_cache.dir
+E:/GitProject/Others/ShaderReflection-main/build/projects/dxc_test/CMakeFiles/rebuild_cache.dir
+E:/GitProject/Others/ShaderReflection-main/build/projects/fxc_test/CMakeFiles/fxc_test.dir
+E:/GitProject/Others/ShaderReflection-main/build/projects/fxc_test/CMakeFiles/edit_cache.dir
+E:/GitProject/Others/ShaderReflection-main/build/projects/fxc_test/CMakeFiles/rebuild_cache.dir

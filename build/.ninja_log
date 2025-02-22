@@ -1,0 +1,5 @@
+# ninja log v5
+3	6081	7619425775737638	projects/dxc_test/CMakeFiles/dxc_test.dir/src/ShaderReflection.cpp.obj	a15c7e27cc6ce269
+6090	6550	7619425780248792	projects/dxc_test/dxc_test.exe	a55b94f876e52c75
+112	6582	7619425780878790	projects/fxc_test/CMakeFiles/fxc_test.dir/src/FxcShaderReflection.cpp.obj	a0ecb904686b8718
+6582	6954	7619425784419584	projects/fxc_test/fxc_test.exe	b201c096a5d91578
