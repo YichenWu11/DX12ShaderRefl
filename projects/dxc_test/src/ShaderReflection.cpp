@@ -72,10 +72,61 @@ std::string D3DShaderInputTypeToString(D3D_SHADER_INPUT_TYPE type) {
     }
 }
 
+std::string D3DSrvDimensionToString(D3D_SRV_DIMENSION dimension) {
+    switch (dimension) {
+        case D3D_SRV_DIMENSION_UNKNOWN: return "D3D_SRV_DIMENSION_UNKNOWN";
+        case D3D_SRV_DIMENSION_BUFFER: return "D3D_SRV_DIMENSION_BUFFER";
+        case D3D_SRV_DIMENSION_TEXTURE1D: return "D3D_SRV_DIMENSION_TEXTURE1D";
+        case D3D_SRV_DIMENSION_TEXTURE1DARRAY: return "D3D_SRV_DIMENSION_TEXTURE1DARRAY";
+        case D3D_SRV_DIMENSION_TEXTURE2D: return "D3D_SRV_DIMENSION_TEXTURE2D";
+        case D3D_SRV_DIMENSION_TEXTURE2DARRAY: return "D3D_SRV_DIMENSION_TEXTURE2DARRAY";
+        case D3D_SRV_DIMENSION_TEXTURE2DMS: return "D3D_SRV_DIMENSION_TEXTURE2DMS";
+        case D3D_SRV_DIMENSION_TEXTURE2DMSARRAY: return "D3D_SRV_DIMENSION_TEXTURE2DMSARRAY";
+        case D3D_SRV_DIMENSION_TEXTURE3D: return "D3D_SRV_DIMENSION_TEXTURE3D";
+        case D3D_SRV_DIMENSION_TEXTURECUBE: return "D3D_SRV_DIMENSION_TEXTURECUBE";
+        case D3D_SRV_DIMENSION_TEXTURECUBEARRAY: return "D3D_SRV_DIMENSION_TEXTURECUBEARRAY";
+        case D3D_SRV_DIMENSION_BUFFEREX: return "D3D_SRV_DIMENSION_BUFFEREX";
+        // case D3D10_SRV_DIMENSION_UNKNOWN: return "D3D10_SRV_DIMENSION_UNKNOWN";
+        // case D3D10_SRV_DIMENSION_BUFFER: return "D3D10_SRV_DIMENSION_BUFFER";
+        // case D3D10_SRV_DIMENSION_TEXTURE1D: return "D3D10_SRV_DIMENSION_TEXTURE1D";
+        // case D3D10_SRV_DIMENSION_TEXTURE1DARRAY: return "D3D10_SRV_DIMENSION_TEXTURE1DARRAY";
+        // case D3D10_SRV_DIMENSION_TEXTURE2D: return "D3D10_SRV_DIMENSION_TEXTURE2D";
+        // case D3D10_SRV_DIMENSION_TEXTURE2DARRAY: return "D3D10_SRV_DIMENSION_TEXTURE2DARRAY";
+        // case D3D10_SRV_DIMENSION_TEXTURE2DMS: return "D3D10_SRV_DIMENSION_TEXTURE2DMS";
+        // case D3D10_SRV_DIMENSION_TEXTURE2DMSARRAY: return "D3D10_SRV_DIMENSION_TEXTURE2DMSARRAY";
+        // case D3D10_SRV_DIMENSION_TEXTURE3D: return "D3D10_SRV_DIMENSION_TEXTURE3D";
+        // case D3D10_SRV_DIMENSION_TEXTURECUBE: return "D3D10_SRV_DIMENSION_TEXTURECUBE";
+        // case D3D10_1_SRV_DIMENSION_UNKNOWN: return "D3D10_1_SRV_DIMENSION_UNKNOWN";
+        // case D3D10_1_SRV_DIMENSION_BUFFER: return "D3D10_1_SRV_DIMENSION_BUFFER";
+        // case D3D10_1_SRV_DIMENSION_TEXTURE1D: return "D3D10_1_SRV_DIMENSION_TEXTURE1D";
+        // case D3D10_1_SRV_DIMENSION_TEXTURE1DARRAY: return "D3D10_1_SRV_DIMENSION_TEXTURE1DARRAY";
+        // case D3D10_1_SRV_DIMENSION_TEXTURE2D: return "D3D10_1_SRV_DIMENSION_TEXTURE2D";
+        // case D3D10_1_SRV_DIMENSION_TEXTURE2DARRAY: return "D3D10_1_SRV_DIMENSION_TEXTURE2DARRAY";
+        // case D3D10_1_SRV_DIMENSION_TEXTURE2DMS: return "D3D10_1_SRV_DIMENSION_TEXTURE2DMS";
+        // case D3D10_1_SRV_DIMENSION_TEXTURE2DMSARRAY: return "D3D10_1_SRV_DIMENSION_TEXTURE2DMSARRAY";
+        // case D3D10_1_SRV_DIMENSION_TEXTURE3D: return "D3D10_1_SRV_DIMENSION_TEXTURE3D";
+        // case D3D10_1_SRV_DIMENSION_TEXTURECUBE: return "D3D10_1_SRV_DIMENSION_TEXTURECUBE";
+        // case D3D10_1_SRV_DIMENSION_TEXTURECUBEARRAY: return "D3D10_1_SRV_DIMENSION_TEXTURECUBEARRAY";
+        // case D3D11_SRV_DIMENSION_UNKNOWN: return "D3D11_SRV_DIMENSION_UNKNOWN";
+        // case D3D11_SRV_DIMENSION_BUFFER: return "D3D11_SRV_DIMENSION_BUFFER";
+        // case D3D11_SRV_DIMENSION_TEXTURE1D: return "D3D11_SRV_DIMENSION_TEXTURE1D";
+        // case D3D11_SRV_DIMENSION_TEXTURE1DARRAY: return "D3D11_SRV_DIMENSION_TEXTURE1DARRAY";
+        // case D3D11_SRV_DIMENSION_TEXTURE2D: return "D3D11_SRV_DIMENSION_TEXTURE2D";
+        // case D3D11_SRV_DIMENSION_TEXTURE2DARRAY: return "D3D11_SRV_DIMENSION_TEXTURE2DARRAY";
+        // case D3D11_SRV_DIMENSION_TEXTURE2DMS: return "D3D11_SRV_DIMENSION_TEXTURE2DMS";
+        // case D3D11_SRV_DIMENSION_TEXTURE2DMSARRAY: return "D3D11_SRV_DIMENSION_TEXTURE2DMSARRAY";
+        // case D3D11_SRV_DIMENSION_TEXTURE3D: return "D3D11_SRV_DIMENSION_TEXTURE3D";
+        // case D3D11_SRV_DIMENSION_TEXTURECUBE: return "D3D11_SRV_DIMENSION_TEXTURECUBE";
+        // case D3D11_SRV_DIMENSION_TEXTURECUBEARRAY: return "D3D11_SRV_DIMENSION_TEXTURECUBEARRAY";
+        // case D3D11_SRV_DIMENSION_BUFFEREX: return "D3D11_SRV_DIMENSION_BUFFEREX";
+        default: return "UNKNOWN_D3D_SRV_DIMENSION";
+    }
+}
+
 int main() {
-    std::string shaderPath        = "../../../shaders/simple.hlsl";
+    std::string shaderPath        = "../../../shaders/ms.hlsl";
     std::string extraShaderSource = ReadFileToString(shaderPath);
-    LPCWSTR     shaderEntryPoint  = L"PSMain";
+    LPCWSTR     shaderEntryPoint  = L"main";
     LPCWSTR     shaderTargetLevel = L"ps_6_0";
 
     ComPtr<IDxcUtils>
@@ -226,11 +277,12 @@ int main() {
         cout << "Bound Resource Count: " << desc.BoundResources << endl;
         auto binding_count = desc.BoundResources;
         for (uint32_t i = 0; i < binding_count; ++i) {
+            // https://learn.microsoft.com/en-us/windows/win32/api/d3d12shader/ns-d3d12shader-d3d12_shader_input_bind_desc
             D3D12_SHADER_INPUT_BIND_DESC desc;
             auto                         binding = pShaderReflection->GetResourceBindingDesc(i, &desc);
             cout << "Name: " << desc.Name << endl;
             cout << "	Type:		" << D3DShaderInputTypeToString(desc.Type) << endl;
-            cout << "	Dimension:	" << desc.Dimension << endl;
+            cout << "	Dimension:	" << D3DSrvDimensionToString(desc.Dimension) << endl;
             cout << "	BindCount:	" << desc.BindCount << endl;
             cout << "	BindPoint:	" << desc.BindPoint << endl;
             cout << "	Space:		" << desc.Space << endl;
