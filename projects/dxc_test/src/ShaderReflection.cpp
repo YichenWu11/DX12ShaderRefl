@@ -1,7 +1,7 @@
 ﻿// ShaderReflection.cpp : Defines the entry point for the application.
 //
 
-#include "ShaderReflection.h"
+// #include "ShaderReflection.h"
 #include "CommonShader.h"
 #include "d3d12shader.h"
 #include "dxcapi.h"
@@ -11,6 +11,11 @@
 #include <vector>
 #include <wrl.h>
 
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+
 // this is from DirectXShaderCompiler\include\dxc\DxilContainer\DxilContainer.h
 // which is not supposed to be a public header!!!
 #define DXIL_FOURCC(ch0, ch1, ch2, ch3) \
@@ -19,8 +24,30 @@
 using namespace std;
 using Microsoft::WRL::ComPtr;
 
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+
+std::string ReadFileToString(const std::string& filePath) {
+    std::ifstream file(filePath);
+    if (!file.is_open()) {
+        return "";
+    }
+    std::ostringstream ss;
+    ss << file.rdbuf();
+    file.close();
+    return ss.str();
+}
+
 int main() {
-    ComPtr<IDxcUtils> pUtils;
+    std::string shaderPath        = "../../../shaders/simple.hlsl";
+    std::string extraShaderSource = ReadFileToString(shaderPath);
+    LPCWSTR     shaderEntryPoint  = L"PSMain";
+    LPCWSTR     shaderTargetLevel = L"ps_6_0";
+
+    ComPtr<IDxcUtils>
+        pUtils;
     DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(pUtils.GetAddressOf()));
 
     ComPtr<IDxcLibrary> pLibrary;
@@ -30,6 +57,7 @@ int main() {
     DxcCreateInstance(CLSID_DxcContainerReflection,
                       IID_PPV_ARGS(pContainer.GetAddressOf()));
 
+    // compiler shader, otherwise from raw dxil file
     bool                           compile_shader = true;
     bool                           test_library   = false;
     DxcBuffer                      shaderBuffer;
@@ -51,11 +79,11 @@ int main() {
         std::vector<LPCWSTR> arguments;
         //-E for the entry point (eg. PSMain)
         arguments.push_back(L"-E");
-        arguments.push_back(L"main");
+        arguments.push_back(shaderEntryPoint);
 
         //-T for the target profile (eg. ps_6_2)
         arguments.push_back(L"-T");
-        arguments.push_back(L"ps_6_0");
+        arguments.push_back(shaderTargetLevel);
 
         // Strip reflection data and pdbs (see later)
         arguments.push_back(L"-Qstrip_debug");
@@ -66,8 +94,8 @@ int main() {
         arguments.push_back(DXC_ARG_PACK_MATRIX_ROW_MAJOR); //-Zp
 
         ComPtr<IDxcBlobEncoding> pSource;
-        uint32_t                 shader_size = (uint32_t)shader_source.size();
-        pUtils->CreateBlob(shader_source.c_str(), shader_size, CP_UTF8,
+        uint32_t                 shader_size = (uint32_t)extraShaderSource.size();
+        pUtils->CreateBlob(extraShaderSource.c_str(), shader_size, CP_UTF8,
                            pSource.GetAddressOf());
 
         shaderBuffer.Ptr      = pSource->GetBufferPointer();
