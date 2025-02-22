@@ -40,6 +40,38 @@ std::string ReadFileToString(const std::string& filePath) {
     return ss.str();
 }
 
+std::string D3DShaderInputTypeToString(D3D_SHADER_INPUT_TYPE type) {
+    switch (type) {
+        case D3D_SIT_CBUFFER: return "D3D_SIT_CBUFFER";
+        case D3D_SIT_TBUFFER: return "D3D_SIT_TBUFFER";
+        case D3D_SIT_TEXTURE: return "D3D_SIT_TEXTURE";
+        case D3D_SIT_SAMPLER: return "D3D_SIT_SAMPLER";
+        case D3D_SIT_UAV_RWTYPED: return "D3D_SIT_UAV_RWTYPED";
+        case D3D_SIT_STRUCTURED: return "D3D_SIT_STRUCTURED";
+        case D3D_SIT_UAV_RWSTRUCTURED: return "D3D_SIT_UAV_RWSTRUCTURED";
+        case D3D_SIT_BYTEADDRESS: return "D3D_SIT_BYTEADDRESS";
+        case D3D_SIT_UAV_RWBYTEADDRESS: return "D3D_SIT_UAV_RWBYTEADDRESS";
+        case D3D_SIT_UAV_APPEND_STRUCTURED: return "D3D_SIT_UAV_APPEND_STRUCTURED";
+        case D3D_SIT_UAV_CONSUME_STRUCTURED: return "D3D_SIT_UAV_CONSUME_STRUCTURED";
+        case D3D_SIT_UAV_RWSTRUCTURED_WITH_COUNTER: return "D3D_SIT_UAV_RWSTRUCTURED_WITH_COUNTER";
+        case D3D_SIT_RTACCELERATIONSTRUCTURE: return "D3D_SIT_RTACCELERATIONSTRUCTURE";
+        case D3D_SIT_UAV_FEEDBACKTEXTURE: return "D3D_SIT_UAV_FEEDBACKTEXTURE";
+        // case D3D10_SIT_CBUFFER: return "D3D10_SIT_CBUFFER";
+        // case D3D10_SIT_TBUFFER: return "D3D10_SIT_TBUFFER";
+        // case D3D10_SIT_TEXTURE: return "D3D10_SIT_TEXTURE";
+        // case D3D10_SIT_SAMPLER: return "D3D10_SIT_SAMPLER";
+        // case D3D11_SIT_UAV_RWTYPED: return "D3D11_SIT_UAV_RWTYPED";
+        // case D3D11_SIT_STRUCTURED: return "D3D11_SIT_STRUCTURED";
+        // case D3D11_SIT_UAV_RWSTRUCTURED: return "D3D11_SIT_UAV_RWSTRUCTURED";
+        // case D3D11_SIT_BYTEADDRESS: return "D3D11_SIT_BYTEADDRESS";
+        // case D3D11_SIT_UAV_RWBYTEADDRESS: return "D3D11_SIT_UAV_RWBYTEADDRESS";
+        // case D3D11_SIT_UAV_APPEND_STRUCTURED: return "D3D11_SIT_UAV_APPEND_STRUCTURED";
+        // case D3D11_SIT_UAV_CONSUME_STRUCTURED: return "D3D11_SIT_UAV_CONSUME_STRUCTURED";
+        // case D3D11_SIT_UAV_RWSTRUCTURED_WITH_COUNTER: return "D3D11_SIT_UAV_RWSTRUCTURED_WITH_COUNTER";
+        default: return "UNKNOWN_D3D_SHADER_INPUT_TYPE";
+    }
+}
+
 int main() {
     std::string shaderPath        = "../../../shaders/simple.hlsl";
     std::string extraShaderSource = ReadFileToString(shaderPath);
@@ -197,7 +229,7 @@ int main() {
             D3D12_SHADER_INPUT_BIND_DESC desc;
             auto                         binding = pShaderReflection->GetResourceBindingDesc(i, &desc);
             cout << "Name: " << desc.Name << endl;
-            cout << "	Type:		" << desc.Type << endl;
+            cout << "	Type:		" << D3DShaderInputTypeToString(desc.Type) << endl;
             cout << "	Dimension:	" << desc.Dimension << endl;
             cout << "	BindCount:	" << desc.BindCount << endl;
             cout << "	BindPoint:	" << desc.BindPoint << endl;
