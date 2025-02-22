@@ -123,14 +123,33 @@ std::string D3DSrvDimensionToString(D3D_SRV_DIMENSION dimension) {
     }
 }
 
-int main() {
-    std::string shaderPath        = "../../../shaders/ms.hlsl";
-    std::string extraShaderSource = ReadFileToString(shaderPath);
-    LPCWSTR     shaderEntryPoint  = L"main";
-    LPCWSTR     shaderTargetLevel = L"ps_6_0";
+void SaveCompiledShaderToFile(ComPtr<IDxcResult> pCompileResult, const std::wstring& filePath) {
+    ComPtr<IDxcBlob> pShaderBlob;
+    HRESULT          hr = pCompileResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(&pShaderBlob), nullptr);
+    if (FAILED(hr)) {
+        return;
+    }
 
-    ComPtr<IDxcUtils>
-        pUtils;
+    std::ofstream outFile(filePath, std::ios::binary);
+    if (!outFile) {
+        return;
+    }
+
+    outFile.write(static_cast<const char*>(pShaderBlob->GetBufferPointer()), pShaderBlob->GetBufferSize());
+    outFile.close();
+}
+
+int main() {
+    std::string shaderPath        = "../../../shaders/SimpleShader.hlsl";
+    std::string extraShaderSource = ReadFileToString(shaderPath);
+    LPCWSTR     shaderEntryPoint  = L"PSMain";
+    LPCWSTR     shaderTargetLevel = L"ps_6_2";
+
+    std::string rawDxilPath = "../../../shaders/SimpleShader.dxil";
+
+    std::wstring saveDxilPath = L"../../../shaders/SimpleShader.dxil";
+
+    ComPtr<IDxcUtils> pUtils;
     DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(pUtils.GetAddressOf()));
 
     ComPtr<IDxcLibrary> pLibrary;
@@ -142,6 +161,7 @@ int main() {
 
     // compiler shader, otherwise from raw dxil file
     bool                           compile_shader = true;
+    bool                           save_dxil      = false;
     bool                           test_library   = false;
     DxcBuffer                      shaderBuffer;
     std::vector<char>              raw_buffer;
@@ -171,6 +191,7 @@ int main() {
         // Strip reflection data and pdbs (see later)
         arguments.push_back(L"-Qstrip_debug");
         arguments.push_back(L"-Qstrip_reflect");
+        arguments.push_back(L"-enable-16bit-types");
 
         arguments.push_back(DXC_ARG_WARNINGS_ARE_ERRORS);   //-WX
         arguments.push_back(DXC_ARG_DEBUG);                 //-Zi
@@ -189,6 +210,10 @@ int main() {
         auto               hr = pCompiler3->Compile(&shaderBuffer, arguments.data(),
                                                     (uint32_t)arguments.size(), nullptr,
                                                     IID_PPV_ARGS(pCompileResult.GetAddressOf()));
+
+        if (save_dxil) {
+            SaveCompiledShaderToFile(pCompileResult, saveDxilPath);
+        }
 
         if (test_library) {
             pCompileResult->GetResult(pShaderBlob.GetAddressOf());
@@ -214,11 +239,11 @@ int main() {
         }
     }
     else {
-        auto path = filesystem::current_path().string();
+        auto path = rawDxilPath;
         // both reflection and dxil would work
         // path += "\\..\\..\\..\\shaders\\hjr.ref";
         // path += "\\..\\..\\..\\shaders\\HJ.dxil";
-        path += "\\..\\..\\..\\shaders\\HJ_strip_reflect.dxil";
+
         cout << "Getting d3d12 reflection data from ref file: " << path << endl;
 
         std::ifstream file(path, std::ios::binary | std::ios::ate);
