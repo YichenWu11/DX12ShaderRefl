@@ -1,4 +1,5 @@
-cbuffer GlobalConstants : register(b0)
+// cbuffer GlobalConstants : register(b1, space1)
+cbuffer GlobalConstants
 {
     // float16_t2 v1;
     float2 v1;

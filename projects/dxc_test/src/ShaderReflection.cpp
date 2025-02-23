@@ -162,7 +162,7 @@ int main() {
                       IID_PPV_ARGS(pContainer.GetAddressOf()));
 
     // compiler shader, otherwise from raw dxil file
-    bool                           compile_shader = false;
+    bool                           compile_shader = true;
     bool                           save_dxil      = false;
     bool                           test_library   = false;
     DxcBuffer                      shaderBuffer;
