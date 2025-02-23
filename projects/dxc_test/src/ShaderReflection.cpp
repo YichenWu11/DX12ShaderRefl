@@ -192,6 +192,7 @@ int main() {
         arguments.push_back(L"-Qstrip_debug");
         arguments.push_back(L"-Qstrip_reflect");
         arguments.push_back(L"-enable-16bit-types");
+        // arguments.push_back(L"-no-legacy-cbuf-layout");
 
         arguments.push_back(DXC_ARG_WARNINGS_ARE_ERRORS);   //-WX
         arguments.push_back(DXC_ARG_DEBUG);                 //-Zi
