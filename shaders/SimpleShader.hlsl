@@ -1,7 +1,7 @@
 cbuffer GlobalConstants : register(b0)
 {
-    float16_t2 v1;
-    // float2 v1;
+    // float16_t2 v1;
+    float2 v1;
     float3 v2;
     float  v3;
     int    v4;

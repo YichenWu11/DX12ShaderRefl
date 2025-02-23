@@ -145,9 +145,11 @@ int main() {
     LPCWSTR     shaderEntryPoint  = L"PSMain";
     LPCWSTR     shaderTargetLevel = L"ps_6_2";
 
-    std::string rawDxilPath = "../../../shaders/SimpleShader.dxil";
+    LPCWSTR rawDxilPath = L"../../../shaders/SimpleShader.dxil";
+    LPCWSTR rawRefPath  = L"../../../shaders/SimpleShader.ref";
 
-    std::wstring saveDxilPath = L"../../../shaders/SimpleShader.dxil";
+    LPCWSTR saveDxilPath = L"../../../shaders/SimpleShader.dxil";
+    LPCWSTR saveRefPath  = L"../../../shaders/SimpleShader.ref";
 
     ComPtr<IDxcUtils> pUtils;
     DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(pUtils.GetAddressOf()));
@@ -160,7 +162,7 @@ int main() {
                       IID_PPV_ARGS(pContainer.GetAddressOf()));
 
     // compiler shader, otherwise from raw dxil file
-    bool                           compile_shader = true;
+    bool                           compile_shader = false;
     bool                           save_dxil      = false;
     bool                           test_library   = false;
     DxcBuffer                      shaderBuffer;
@@ -188,7 +190,6 @@ int main() {
         arguments.push_back(L"-T");
         arguments.push_back(shaderTargetLevel);
 
-        // Strip reflection data and pdbs (see later)
         arguments.push_back(L"-Qstrip_debug");
         arguments.push_back(L"-Qstrip_reflect");
         arguments.push_back(L"-enable-16bit-types");
@@ -240,10 +241,8 @@ int main() {
         }
     }
     else {
-        auto path = rawDxilPath;
-        // both reflection and dxil would work
-        // path += "\\..\\..\\..\\shaders\\hjr.ref";
-        // path += "\\..\\..\\..\\shaders\\HJ.dxil";
+        // auto path = rawDxilPath;
+        auto path = rawRefPath;
 
         cout << "Getting d3d12 reflection data from ref file: " << path << endl;
 
