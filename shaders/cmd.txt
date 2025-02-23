@@ -1,3 +1,6 @@
+反编译
+./dxc -dumpbin ../SimpleShader.spv
+
 ./dxc ../SimpleShader.hlsl -T ps_6_2 -E PSMain -Qstrip_reflect -Fre ../SimpleShader.ref
 
 ./dxc ../SimpleShader.hlsl -T ps_6_2 -E PSMain -Qstrip_reflect -Fo ../SimpleShader.dxil
