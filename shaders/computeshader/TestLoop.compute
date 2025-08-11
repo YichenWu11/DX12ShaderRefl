@@ -1,0 +1,30 @@
+uint NumNonActorLights;
+uint NumBothLights;
+
+RWStructuredBuffer<uint> _rwBuffer;
+
+[numthreads(4, 4, 4)]
+void LightGridInjection(uint3 GroupId : SV_GroupID,
+	uint3 DispatchThreadId : SV_DispatchThreadID,
+	uint3 GroupThreadId : SV_GroupThreadID)
+{
+	uint3 GridCoordinate = DispatchThreadId;
+	
+    uint value = 0;
+    [loop]
+    for (uint LocalLightIndex = 0; LocalLightIndex < NumNonActorLights; LocalLightIndex++)
+    {
+    	value++;
+    }
+    
+    [loop]
+    for (uint LocalLightIndex = NumNonActorLights; LocalLightIndex < NumNonActorLights+NumBothLights; LocalLightIndex++)
+    {
+    	value++;
+    }
+
+    float3 f3 = float3(1, 1, 1);
+    float2 f2 = f3.xy;
+
+	_rwBuffer[GridCoordinate.x] = value;
+}

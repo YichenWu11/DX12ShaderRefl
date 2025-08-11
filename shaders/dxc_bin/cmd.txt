@@ -1,0 +1,2 @@
+.\spirv-dis.exe .\SimpleShader.spv -o .\SimpleShader_text.spv
+./dxc .\SimpleShader.hlsl -T ps_6_0 -E PSMain -spirv -fvk-use-dx-layout -fvk-use-dx-position-w -fspv-reflect -fvk-auto-shift-bindings -HV 2018 -Fo ./SimpleShader.spv

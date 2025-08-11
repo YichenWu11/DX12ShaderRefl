@@ -4,7 +4,7 @@
 // #include "ShaderReflection.h"
 #include "CommonShader.h"
 #include "d3d12shader.h"
-#include "dxcapi.h"
+#include "dxcapi_uc.h"
 #include <cassert>
 #include <filesystem>
 #include <fstream>
@@ -139,17 +139,75 @@ void SaveCompiledShaderToFile(ComPtr<IDxcResult> pCompileResult, const std::wstr
     outFile.close();
 }
 
+
+#include <wrl/client.h>
+
+template<class T>
+using CComPtr = Microsoft::WRL::ComPtr<T>;
+
+template<class T>
+static inline T* ComPtrGet(CComPtr<T>& comObj)
+{
+    return comObj.Get();
+}
+
+// static int DXCRewrite_RemoveUnusedGlobals(const core::string& code, uint32_t codePage, LPCWSTR entryPoint, core::string& result)
+// {
+//     ShaderImportErrors errs;
+//     if (!EnsureDxcIsLoaded(errs))
+//         return E_FAIL;
+
+//     IDxcLibrary* p = g_pDxcLibrary;
+//     CComPtr<IDxcLibrary> pLib(p);
+
+//     dxc::DxcDllSupport& dxcHelper = g_DxcDllHelper;
+
+//     CComPtr<IDxcRewriter> pRewriter;
+//     HRESULT hr = dxcHelper.CreateInstance<IDxcRewriter>(CLSID_DxcRewriter, &pRewriter);
+//     if (FAILED(hr))
+//         return hr;
+
+//     CComPtr<IDxcBlobEncoding> pBlob;
+//     hr = pLib->CreateBlobWithEncodingOnHeapCopy(code.c_str(), code.size() * 2, codePage, &pBlob);
+//     if (FAILED(hr))
+//         return hr;
+
+//     CComPtr<IDxcRewriteResult> pResult;
+//     hr = pRewriter->RemoveUnusedGlobals(ComPtrGet(pBlob), entryPoint, nullptr, 0, &pResult);
+//     if (FAILED(hr))
+//         return hr;
+
+//     CComPtr<IDxcBlobEncoding> pRewriteResult;
+//     hr = pResult->GetRewrite(&pRewriteResult);
+//     if (FAILED(hr))
+//         return hr;
+
+//     CComPtr<IDxcBlobEncoding> pUtf8;
+//     hr = pLib->GetBlobAsUtf8(ComPtrGet(pRewriteResult), &pUtf8);
+//     if (FAILED(hr))
+//         return hr;
+
+//     size_t size = pUtf8->GetBufferSize();
+//     result = reinterpret_cast<const char*>(pUtf8->GetBufferPointer());
+//     return S_OK;
+// }
+
+
+// static dxc::DxcDllSupport g_DxcDllHelper;
+
 int main() {
-    std::string shaderPath        = "../../../shaders/SimpleShader.hlsl";
+    std::string shaderPath        = "../../../../shaders/SimpleShader.hlsl";
     std::string extraShaderSource = ReadFileToString(shaderPath);
+
+    // std::cout << extraShaderSource << std::endl;
     LPCWSTR     shaderEntryPoint  = L"PSMain";
     LPCWSTR     shaderTargetLevel = L"ps_6_2";
 
-    LPCWSTR rawDxilPath = L"../../../shaders/SimpleShader.dxil";
-    LPCWSTR rawRefPath  = L"../../../shaders/SimpleShader.ref";
+    LPCWSTR rawDxilPath = L"../../../../shaders/SimpleShader.dxil";
+    LPCWSTR rawRefPath  = L"../../../../shaders/SimpleShader.ref";
 
-    LPCWSTR saveDxilPath = L"../../../shaders/SimpleShader.dxil";
-    LPCWSTR saveRefPath  = L"../../../shaders/SimpleShader.ref";
+    LPCWSTR saveDxilPath = L"../../../../shaders/SimpleShader.dxil";
+    LPCWSTR saveRefPath  = L"../../../../shaders/SimpleShader.ref";
 
     ComPtr<IDxcUtils> pUtils;
     DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(pUtils.GetAddressOf()));
@@ -163,7 +221,7 @@ int main() {
 
     // compiler shader, otherwise from raw dxil file
     bool                           compile_shader = true;
-    bool                           save_dxil      = false;
+    bool                           save_dxil      = true;
     bool                           test_library   = false;
     DxcBuffer                      shaderBuffer;
     std::vector<char>              raw_buffer;
@@ -173,6 +231,13 @@ int main() {
 
     if (compile_shader) {
         cout << "Getting d3d12 reflection data from code directly" << endl;
+
+        bool enableRewrite = true;
+        if (enableRewrite)
+        {
+            cout << "DXC Rewrite shader" << endl;
+        }
+
         ComPtr<IDxcCompiler3> pCompiler3;
         DxcCreateInstance(CLSID_DxcCompiler,
                           IID_PPV_ARGS(pCompiler3.GetAddressOf()));
@@ -193,6 +258,7 @@ int main() {
         arguments.push_back(L"-Qstrip_debug");
         arguments.push_back(L"-Qstrip_reflect");
         arguments.push_back(L"-enable-16bit-types");
+        // arguments.push_back(L"-HV 2018");
         // arguments.push_back(L"-no-legacy-cbuf-layout");
 
         arguments.push_back(DXC_ARG_WARNINGS_ARE_ERRORS);   //-WX

@@ -1,0 +1,3 @@
+..\dxc_bin\dxc.exe .\TestLoop.compute -T cs_6_0 -E LightGridInjection -Qstrip_reflect -Zi -Qembed_debug -Od -WX -Wall -Fo TestLoop.dxil
+
+..\fxc_bin\fxc.exe /T cs_5_0 /E LightGridInjection /Fo TestLoop.cso TestLoop.compute /WX /Zi
